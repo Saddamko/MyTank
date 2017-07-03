@@ -6,15 +6,20 @@ int IN1 = 4; // Input1 подключен к выводу 5
 int IN2 = 5;
 int IN3 = 6;
 int IN4 = 7;
+
 int EN1 = 3;
 int EN2 = 9;
+
 int ENBT = 2;
 int i;
 
+//left eye, right eyen/ servo for head moving
 int LE=8, RE=12, SERVO=13;
 
 SoftwareSerial mySerial(10, 11); // RX, TX
 Servo myservo;  // create servo object to control a servo 
+
+//lasers from eyes
 void blink ()
 {int i;
   for (i=0; i<10; i++)
@@ -31,6 +36,7 @@ void blink ()
   }
 }
 
+//control servo
 void move_head ( )
       {
       myservo.write(0);                  // sets the servo position according to the scaled value 
@@ -43,7 +49,7 @@ void setup() {
       Serial.begin(9600);           // set up Serial library at 9600 bps
       Serial.println("Welcome: Forward = 1 Left = 2 Right = 3 Backwards = 4 Stop = 0");
       mySerial.begin(9600);
-      mySerial.println("Hello, world?");
+      mySerial.println("Debug mode is started");
       
       pinMode(LE, OUTPUT);
       pinMode(RE, OUTPUT);
@@ -59,12 +65,6 @@ void setup() {
       pinMode (ENBT, OUTPUT);
       digitalWrite (ENBT, HIGH);
       state=0;
-      
-      myservo.write(0);                  // sets the servo position according to the scaled value 
-      delay(1000    );                    // waits for the servo to get there 
-      myservo.write(45); 
-      delay(1000    );  
-      blink();
 }
 
 void do_move (int mode, int time)
@@ -80,10 +80,10 @@ void do_move (int mode, int time)
       break;
     case 1:
       //do something when var equals 1 (Forvard)
-      digitalWrite (IN1, HIGH);
-      digitalWrite (IN2, LOW); 
-      digitalWrite (IN3, HIGH);
-      digitalWrite (IN4, LOW);       
+      digitalWrite (IN1, LOW);
+      digitalWrite (IN2, HIGH); 
+      digitalWrite (IN3, LOW);
+      digitalWrite (IN4, HIGH);       
       break;
     case 2:
       //do something when var equals 2 (Turn Left)
@@ -101,10 +101,10 @@ void do_move (int mode, int time)
       break;
     case 4:
       //do something when var equals 4 (Backwards)
-      digitalWrite (IN1, LOW);
-      digitalWrite (IN2, HIGH); 
-      digitalWrite (IN3, LOW);
-      digitalWrite (IN4, HIGH);         
+      digitalWrite (IN1, HIGH);
+      digitalWrite (IN2, LOW); 
+      digitalWrite (IN3, HIGH);
+      digitalWrite (IN4, LOW);         
       break; 
      case 5:
       //do something when var equals 5 (Forward Right)
@@ -145,7 +145,8 @@ void do_move (int mode, int time)
       analogWrite(EN2, i);
       delay(5);
   }
-    delay(time);
+  
+  delay(time);
   analogWrite (EN1, 0);
   analogWrite (EN2, 0);
 
@@ -238,10 +239,10 @@ else if (state >= '9')
       delay(100);
       state = 0; 
     }
-    if(mySerial.available()){
-
+    if(mySerial.available())
+      {
 	    while(mySerial.available()) mySerial.read();//purge buffer
-	  }//if(Serial1)
+      }
 
   }
 }
