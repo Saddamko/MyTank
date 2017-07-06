@@ -55,6 +55,7 @@ void setup() {
       pinMode(RE, OUTPUT);
       pinMode(SERVO, OUTPUT);
       myservo.attach(SERVO); // attaches the servo on pin 9 to the servo object 
+      myservo.write(45); 
       
       pinMode (EN1, OUTPUT);
       pinMode (IN1, OUTPUT);
@@ -139,16 +140,21 @@ void do_move (int mode, int time)
   }
     
 
-  for (i = 50; i <= 200; ++i)
+  for (i = 50; i <= 250; ++i)
   {
       analogWrite(EN1, i);
       analogWrite(EN2, i);
       delay(5);
   }
   
-  delay(time);
-  analogWrite (EN1, 0);
-  analogWrite (EN2, 0);
+//  delay(time);
+//  analogWrite (EN1, 0);
+//  analogWrite (EN2, 0);
+//      analogWrite(EN1, 255);
+//      analogWrite(EN2, 255);
+      delay(time);
+      analogWrite (EN1, 0);
+      analogWrite (EN2, 0);
 
 }
 
@@ -169,7 +175,7 @@ if (state == '0')
       
       Serial.println("Stopped");
       delay(100);
-      state = 0; 
+//      state = 0; 
     }
 else if (state == '1')      // If 1 Forwards
     {
@@ -177,7 +183,7 @@ else if (state == '1')      // If 1 Forwards
       
       Serial.println("Forward");
       delay(100);
-      state = 0; 
+//      state = 0; 
     }
 else if (state == '2')      // If 2 Turn Left
     { 
@@ -185,14 +191,14 @@ else if (state == '2')      // If 2 Turn Left
 
       Serial.println("Left");
       delay(100);
-      state = 0;     
+//      state = 0;     
     }
 else if (state == '3') {    // If 3 Turn Right
       do_move (3,500); 
       
       Serial.println("Right");
       delay(100);
-      state = 0;  
+//      state = 0;  
     }
 else if (state == '4')       // If 4 Backwards
     {
@@ -200,7 +206,7 @@ else if (state == '4')       // If 4 Backwards
 
       Serial.println("Backward");
       delay(100);
-      state = 0;   
+//      state = 0;   
     }
 else if (state == '5') 
     {
@@ -208,7 +214,7 @@ else if (state == '5')
 
       Serial.println("Forward Right");
       delay(100);
-      state = 0;   
+//      state = 0;   
      }
 else if (state == '6') 
     {
@@ -216,28 +222,28 @@ else if (state == '6')
 
       Serial.println("Forward Left");
       delay(100);
-      state = 0;   
+//      state = 0;   
      }
 else if (state == '7')       // 
     {
       do_move (7,200);
       Serial.println("Backward Right");
       delay(100);
-      state = 0;   
+//      state = 0;   
     }
 else if (state == '8')       // 
     {
       do_move (8,0);
       Serial.println("Backward Left");
       delay(100);
-      state = 0;   
+//      state = 0;   
     }
 else if (state >= '9')
     {
       do_move (9,0);
       Serial.println("Invalid");
       delay(100);
-      state = 0; 
+//      state = 0; 
     }
     if(mySerial.available())
       {
